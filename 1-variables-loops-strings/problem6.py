@@ -9,10 +9,7 @@ def duplicates():
 
     ls = user_input.split(" ")
 
-    original_list = []
-
-    for val in ls:
-        original_list.append(int(val))
+    original_list = [int(val) for val in ls]
 
     new_list = []
 
@@ -21,7 +18,7 @@ def duplicates():
     for val in original_list:
         if val not in new_list:
             new_list.append(val)
-        else:
+        elif val not in duplicate_nums:
             duplicate_nums.append(val)
 
     print(f"oringal list: {original_list}")
