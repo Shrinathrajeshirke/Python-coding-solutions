@@ -1,0 +1,3 @@
+Always read full requirements
+Negative indexing [-3:] for last N
+Always add all expected outputs
