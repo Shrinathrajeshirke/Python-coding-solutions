@@ -1,0 +1,12 @@
+# 1. Bubble sort 
+for j in range(len(ls)):
+    for i in range(len(ls)-1):
+        if ls[i] > ls[i+1]:
+            ls[i], ls[i+1] = ls[i+1], ls[i]
+
+# 2. Never use built-in names!
+# dict, list, sum, max, min
+# my_dict, my_list, total
+
+# 3. Always use range(len(ls)-1) 
+#    when accessing ls[i+1]!
