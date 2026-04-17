@@ -15,11 +15,11 @@ class Smartwatch():
     def add_steps(self, count):
         self.__steps += count
 
-    def get_Steps(self):
+    def get_steps(self):
         return self.__steps
     
 watch = Smartwatch(10000)
 
 watch.add_steps(2000)
 
-print(watch.get_Steps())
+print(watch.get_sSteps())
