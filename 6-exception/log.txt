@@ -1,0 +1,6 @@
+[INFO] 2026-04-19 15:09:25 | Program started
+[WARNING] 2026-04-19 15:09:25 | Low memory!
+[ERROR] 2026-04-19 15:09:25 | File not found!
+[INFO] 2026-04-19 15:10:00 | Program started
+[WARNING] 2026-04-19 15:10:00 | Low memory!
+[ERROR] 2026-04-19 15:10:00 | File not found!
