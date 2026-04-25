@@ -1,0 +1,190 @@
+📚 Collections Module Revision!
+
+What is Collections Module?
+python# Built-in data structures
+list, dict, tuple, set
+
+# Collections module adds MORE!
+from collections import Counter, defaultdict, 
+                        deque, namedtuple, OrderedDict
+
+1️⃣ Counter
+pythonfrom collections import Counter
+
+# Counts occurrences automatically!
+numbers = [1, 2, 2, 3, 3, 3, 4, 4, 4, 4]
+count = Counter(numbers)
+print(count)
+# Counter({4: 4, 3: 3, 2: 2, 1: 1})
+
+# Works with strings too!
+text = "hello world"
+letters = Counter(text)
+print(letters)
+# Counter({'l': 3, 'o': 2, 'h': 1, ...})
+
+# Most common elements!
+print(count.most_common(2))
+# [(4, 4), (3, 3)]
+
+# Access like dict!
+print(count[3])  # 3
+print(count[5])  # 0 (doesn't crash!)
+
+# Add counters!
+c1 = Counter(['a', 'b', 'c'])
+c2 = Counter(['a', 'a', 'b'])
+print(c1 + c2)
+# Counter({'a': 3, 'b': 2, 'c': 1})
+
+2️⃣ defaultdict
+pythonfrom collections import defaultdict
+
+# Regular dict - crashes if key missing!
+normal = {}
+# normal['missing'] += 1  # ❌ KeyError!
+
+# defaultdict - never crashes!
+dd = defaultdict(int)  # default value = 0
+dd['missing'] += 1     # ✅ works!
+print(dd['missing'])   # 1
+
+# Different default types!
+dd_list = defaultdict(list)
+dd_list['items'].append(1)
+print(dd_list['items'])  # [1]
+
+dd_set = defaultdict(set)
+dd_set['tags'].add('python')
+print(dd_set['tags'])  # {'python'}
+
+# Example - group by length
+words = ['cat', 'dog', 'bird', 'ant', 'elephant']
+grouped = defaultdict(list)
+for word in words:
+    grouped[len(word)].append(word)
+print(dict(grouped))
+# {3: ['cat', 'dog', 'ant'], 4: ['bird'], 8: ['elephant']}
+
+3️⃣ deque (Double-ended queue)
+pythonfrom collections import deque
+
+# Like list but FAST at both ends!
+dq = deque([1, 2, 3])
+
+# Add to right (like list.append)
+dq.append(4)
+print(dq)  # deque([1, 2, 3, 4])
+
+# Add to left! ✅
+dq.appendleft(0)
+print(dq)  # deque([0, 1, 2, 3, 4])
+
+# Remove from right (like list.pop)
+dq.pop()
+print(dq)  # deque([0, 1, 2, 3])
+
+# Remove from left! ✅
+dq.popleft()
+print(dq)  # deque([1, 2, 3])
+
+# Rotate!
+dq.rotate(1)   # rotate right
+print(dq)  # deque([3, 1, 2])
+
+dq.rotate(-1)  # rotate left
+print(dq)  # deque([1, 2, 3])
+
+# Max length - auto removes oldest!
+dq = deque([1, 2, 3], maxlen=3)
+dq.append(4)
+print(dq)  # deque([2, 3, 4]) - 1 removed!
+
+4️⃣ namedtuple
+pythonfrom collections import namedtuple
+
+# Like tuple but with names!
+Point = namedtuple('Point', ['x', 'y'])
+p = Point(10, 20)
+
+# Access by name OR index!
+print(p.x)    # 10
+print(p[0])   # 10
+print(p.y)    # 20
+print(p[1])   # 20
+
+# Immutable like regular tuple!
+# p.x = 30  # ❌ Error!
+
+# Unpacking works!
+x, y = p
+print(x, y)  # 10 20
+
+# Example - student records
+Student = namedtuple('Student', ['name', 'marks', 'grade'])
+s1 = Student('Ram', 85, 'B')
+s2 = Student('Sam', 92, 'A')
+
+print(s1.name)   # Ram
+print(s1.marks)  # 85
+
+# Clean and readable!
+students = [s1, s2]
+for student in students:
+    print(f"{student.name}: {student.grade}")
+
+5️⃣ OrderedDict
+pythonfrom collections import OrderedDict
+
+# Regular dict (Python 3.7+) maintains order!
+normal = {'a': 1, 'b': 2, 'c': 3}
+
+# OrderedDict has extra methods!
+od = OrderedDict()
+od['a'] = 1
+od['b'] = 2
+od['c'] = 3
+
+# Move to end!
+od.move_to_end('a')
+print(od)
+# OrderedDict([('b', 2), ('c', 3), ('a', 1)])
+
+# Move to start!
+od.move_to_end('b', last=False)
+print(od)
+# OrderedDict([('b', 2), ('c', 3), ('a', 1)])
+
+# Pop last item!
+od.popitem(last=True)
+print(od)
+# OrderedDict([('b', 2), ('c', 3)])
+
+# Pop first item!
+od.popitem(last=False)
+print(od)
+# OrderedDict([('c', 3)])
+
+6️⃣ ChainMap
+pythonfrom collections import ChainMap
+
+# Combine multiple dicts!
+dict1 = {'a': 1, 'b': 2}
+dict2 = {'b': 3, 'c': 4}
+dict3 = {'c': 5, 'd': 6}
+
+# ChainMap searches in order!
+cm = ChainMap(dict1, dict2, dict3)
+
+print(cm['a'])  # 1 (from dict1)
+print(cm['b'])  # 2 (from dict1, not dict2!)
+print(cm['c'])  # 4 (from dict2, not dict3!)
+print(cm['d'])  # 6 (from dict3)
+
+# Useful for configs with defaults!
+defaults = {'theme': 'dark', 'size': 14}
+user_prefs = {'theme': 'light'}
+settings = ChainMap(user_prefs, defaults)
+
+print(settings['theme'])  # light (user preference)
+print(settings['size'])   # 14 (default)
