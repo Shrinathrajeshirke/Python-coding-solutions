@@ -15,10 +15,8 @@ class ActivityTracker:
         self.total_activities_tracked = 0
 
     def add(self, activity):
-        if not self.activities:
-            print("No activities tracked yet!")
         if len(self.activities) == self.activities.maxlen:
-            self.removed.append(self.activities.popleft())
+            self.removed.append(self.activities[0])
         self.activities.append(activity)
         self.total_activities_tracked += 1
     
