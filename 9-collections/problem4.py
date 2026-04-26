@@ -22,11 +22,11 @@ students = [
 ]
 
 def stud_marks(students):
-    students = sorted(students, key=lambda x: -x[2])
+    sorted_students = sorted(students, key=lambda x: -x.marks)
 
     print("Output: ")
     print("Top 3 students: ")
-    for student in students[:3]:
+    for student in sorted_students[:3]:
         print(f"{student.name} - {student.marks}")
     print("")
     print("Grade A students: ")
@@ -38,7 +38,7 @@ def stud_marks(students):
     for student in students:
         total += student.marks
     
-    avg_marks = total/len(students)
+    avg_marks = round(total/len(students),2)
     print("")
     print(f"Average marks: {avg_marks}")
 
