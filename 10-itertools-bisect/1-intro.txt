@@ -1,0 +1,251 @@
+What is itertools?
+python# Tools for efficient looping and iteration
+# Creates iterators for efficient looping
+# Memory efficient - generates values on demand!
+
+import itertools
+
+1️⃣ itertools.count()
+python# Infinite counter!
+import itertools
+
+counter = itertools.count(start=10, step=2)
+for i in counter:
+    print(i)
+    if i > 20:
+        break
+# Output: 10, 12, 14, 16, 18, 20
+
+# Use with zip for indexing!
+for i, letter in zip(itertools.count(1), ['a','b','c']):
+    print(f"{i}. {letter}")
+# 1. a
+# 2. b
+# 3. c
+
+2️⃣ itertools.cycle()
+python# Infinite cycle through items!
+colors = itertools.cycle(['red', 'green', 'blue'])
+
+for i, color in zip(range(7), colors):
+    print(color)
+# red, green, blue, red, green, blue, red
+
+# Use case: round-robin assignment!
+tasks = ['task1', 'task2', 'task3', 'task4']
+workers = itertools.cycle(['Alice', 'Bob'])
+for task, worker in zip(tasks, workers):
+    print(f"{task} → {worker}")
+# task1 → Alice
+# task2 → Bob
+# task3 → Alice
+# task4 → Bob
+
+3️⃣ itertools.repeat()
+python# Repeat value n times!
+import itertools
+
+# Infinite repeat
+for x in itertools.repeat(10):
+    print(x)  # 10, 10, 10, ... forever!
+
+# Limited repeat
+for x in itertools.repeat(10, 3):
+    print(x)  # 10, 10, 10
+
+# Use with map!
+list(map(pow, [2,3,4], itertools.repeat(2)))
+# [4, 9, 16] → each squared!
+
+4️⃣ itertools.chain()
+python# Combine multiple iterables!
+list1 = [1, 2, 3]
+list2 = [4, 5, 6]
+list3 = [7, 8, 9]
+
+result = list(itertools.chain(list1, list2, list3))
+print(result)
+# [1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+# Better than list1 + list2 + list3
+# More memory efficient!
+
+5️⃣ itertools.combinations()
+python# All combinations of r items!
+items = ['A', 'B', 'C']
+
+# 2 items at a time
+combs = list(itertools.combinations(items, 2))
+print(combs)
+# [('A', 'B'), ('A', 'C'), ('B', 'C')]
+
+# 3 items at a time
+combs = list(itertools.combinations(items, 3))
+print(combs)
+# [('A', 'B', 'C')]
+
+# Order doesn't matter!
+# ('A', 'B') == ('B', 'A') → only one appears!
+
+6️⃣ itertools.permutations()
+python# All permutations!
+items = ['A', 'B', 'C']
+
+# 2 items at a time
+perms = list(itertools.permutations(items, 2))
+print(perms)
+# [('A','B'), ('A','C'), ('B','A'), ('B','C'), ('C','A'), ('C','B')]
+
+# Order MATTERS!
+# ('A', 'B') != ('B', 'A') → both appear!
+
+# All permutations (length 3)
+perms = list(itertools.permutations(items))
+print(perms)
+# [('A','B','C'), ('A','C','B'), ('B','A','C'), 
+#  ('B','C','A'), ('C','A','B'), ('C','B','A')]
+
+7️⃣ itertools.product()
+python# Cartesian product (all combinations)!
+colors = ['red', 'blue']
+sizes = ['S', 'M', 'L']
+
+products = list(itertools.product(colors, sizes))
+print(products)
+# [('red', 'S'), ('red', 'M'), ('red', 'L'),
+#  ('blue', 'S'), ('blue', 'M'), ('blue', 'L')]
+
+# Like nested loops!
+# for color in colors:
+#     for size in sizes:
+#         print(color, size)
+
+8️⃣ itertools.groupby()
+python# Group consecutive items!
+data = [1, 1, 2, 2, 2, 3, 1, 1]
+
+for key, group in itertools.groupby(data):
+    print(f"{key}: {list(group)}")
+# 1: [1, 1]
+# 2: [2, 2, 2]
+# 3: [3]
+# 1: [1, 1]  ← 1 appears again!
+
+# IMPORTANT: Only groups CONSECUTIVE items!
+
+# Sort first for full grouping!
+data = ['apple', 'ant', 'ball', 'bat', 'cat']
+data.sort()  # sort first!
+
+for key, group in itertools.groupby(data, key=lambda x: x[0]):
+    print(f"{key}: {list(group)}")
+# a: ['ant', 'apple']
+# b: ['ball', 'bat']
+# c: ['cat']
+
+9️⃣ itertools.accumulate()
+python# Running total!
+numbers = [1, 2, 3, 4, 5]
+
+result = list(itertools.accumulate(numbers))
+print(result)
+# [1, 3, 6, 10, 15]
+# [1, 1+2, 1+2+3, 1+2+3+4, 1+2+3+4+5]
+
+# With operator!
+import operator
+result = list(itertools.accumulate(numbers, operator.mul))
+print(result)
+# [1, 2, 6, 24, 120]  → running product!
+
+🔟 itertools.islice()
+python# Slice an iterator!
+numbers = range(100)
+
+# Get first 5
+first_five = list(itertools.islice(numbers, 5))
+print(first_five)
+# [0, 1, 2, 3, 4]
+
+# Skip first 10, then take 5
+result = list(itertools.islice(numbers, 10, 15))
+print(result)
+# [10, 11, 12, 13, 14]
+
+# Every 2nd element
+result = list(itertools.islice(numbers, 0, 10, 2))
+print(result)
+# [0, 2, 4, 6, 8]
+
+📚 Bisect Module
+What is bisect?
+python# Binary search on sorted lists!
+# Super fast for searching/inserting!
+import bisect
+
+1️⃣ bisect.bisect_left()
+python# Find insertion point (left side)
+numbers = [1, 3, 5, 7, 9]
+
+pos = bisect.bisect_left(numbers, 5)
+print(pos)  # 2 (index of 5)
+
+pos = bisect.bisect_left(numbers, 6)
+print(pos)  # 3 (where 6 should go)
+
+# Use case: Find position to insert!
+
+2️⃣ bisect.bisect_right() / bisect.bisect()
+python# Find insertion point (right side)
+numbers = [1, 3, 5, 5, 5, 7, 9]
+
+# bisect_left finds leftmost position
+left = bisect.bisect_left(numbers, 5)
+print(left)  # 2
+
+# bisect_right finds rightmost position
+right = bisect.bisect_right(numbers, 5)
+print(right)  # 5
+
+# bisect is alias for bisect_right
+
+3️⃣ bisect.insort()
+python# Insert and keep sorted!
+numbers = [1, 3, 5, 7, 9]
+
+bisect.insort(numbers, 6)
+print(numbers)
+# [1, 3, 5, 6, 7, 9]
+
+bisect.insort(numbers, 0)
+print(numbers)
+# [0, 1, 3, 5, 6, 7, 9]
+
+# Much faster than:
+# numbers.append(6)
+# numbers.sort()
+
+4️⃣ Binary Search with bisect
+python# Check if element exists!
+def binary_search(arr, x):
+    pos = bisect.bisect_left(arr, x)
+    if pos < len(arr) and arr[pos] == x:
+        return pos
+    return -1
+
+numbers = [1, 3, 5, 7, 9]
+print(binary_search(numbers, 5))  # 2
+print(binary_search(numbers, 6))  # -1
+
+5️⃣ Grade Boundaries Example
+python# Convert marks to grades!
+breakpoints = [60, 70, 80, 90]
+grades = ['F', 'D', 'C', 'B', 'A']
+
+def get_grade(marks):
+    index = bisect.bisect(breakpoints, marks)
+    return grades[index]
+
+print(get_grade(55))  # F
+print(get_grade(75))  # C
+print(get_grade(95))  # A
