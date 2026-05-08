@@ -1,0 +1,296 @@
+📚 What are Regular Expressions?
+Regular Expressions (regex) are patterns 
+used to match text!
+
+Think of it like:
+- Find all email addresses in text
+- Validate phone numbers
+- Extract dates
+- Replace patterns
+- Split text by patterns
+
+📚 Python's re Module
+pythonimport re
+
+# Main functions:
+re.match()     # Match at START of string
+re.search()    # Search ANYWHERE in string
+re.findall()   # Find ALL matches
+re.finditer()  # Find ALL (returns iterator)
+re.sub()       # Replace matches
+re.split()     # Split by pattern
+
+1️⃣ Basic Patterns
+Literal Characters
+pythonimport re
+
+text = "Hello World"
+
+# Match exact text
+result = re.search("World", text)
+print(result)  # <re.Match object>
+print(result.group())  # "World"
+
+# No match
+result = re.search("Python", text)
+print(result)  # None
+
+Special Characters (Metacharacters)
+python.   # Any character (except newline)
+^   # Start of string
+$   # End of string
+*   # 0 or more repetitions
++   # 1 or more repetitions
+?   # 0 or 1 repetition
+[]  # Character set
+|   # OR
+()  # Group
+\   # Escape special character
+
+2️⃣ Character Classes
+python# [abc] - Match a, b, or c
+pattern = r"[abc]"
+text = "apple banana cherry"
+matches = re.findall(pattern, text)
+print(matches)  # ['a', 'a', 'a', 'a', 'c']
+
+# [a-z] - Any lowercase letter
+pattern = r"[a-z]+"
+text = "Hello123World"
+matches = re.findall(pattern, text)
+print(matches)  # ['ello', 'orld']
+
+# [A-Z] - Any uppercase letter
+pattern = r"[A-Z]"
+text = "Hello World"
+matches = re.findall(pattern, text)
+print(matches)  # ['H', 'W']
+
+# [0-9] - Any digit
+pattern = r"[0-9]+"
+text = "I have 3 apples and 5 oranges"
+matches = re.findall(pattern, text)
+print(matches)  # ['3', '5']
+
+# [^abc] - NOT a, b, or c
+pattern = r"[^0-9]+"
+text = "abc123def456"
+matches = re.findall(pattern, text)
+print(matches)  # ['abc', 'def']
+
+3️⃣ Predefined Character Classes
+python\d  # Digit [0-9]
+\D  # Not digit [^0-9]
+\w  # Word character [a-zA-Z0-9_]
+\W  # Not word character
+\s  # Whitespace [ \t\n\r\f\v]
+\S  # Not whitespace
+
+# Examples:
+text = "Phone: 123-456-7890"
+
+# Find all digits
+digits = re.findall(r"\d", text)
+print(digits)  # ['1','2','3','4','5','6','7','8','9','0']
+
+# Find all digit sequences
+numbers = re.findall(r"\d+", text)
+print(numbers)  # ['123', '456', '7890']
+
+# Find all words
+words = re.findall(r"\w+", text)
+print(words)  # ['Phone', '123', '456', '7890']
+
+4️⃣ Quantifiers
+python*   # 0 or more
++   # 1 or more
+?   # 0 or 1
+{n}   # Exactly n times
+{n,}  # n or more times
+{n,m} # Between n and m times
+
+# Examples:
+text = "color colour colouur"
+
+# o* - 0 or more 'o'
+pattern = r"colo*r"
+matches = re.findall(pattern, text)
+print(matches)  # ['color', 'colour']
+
+# o+ - 1 or more 'o'
+pattern = r"colo+r"
+matches = re.findall(pattern, text)
+print(matches)  # ['color', 'colour']
+
+# o? - 0 or 1 'o'
+pattern = r"colou?r"
+matches = re.findall(pattern, text)
+print(matches)  # ['color', 'colour']
+
+# o{2} - exactly 2 'o's
+pattern = r"colo{2}r"
+matches = re.findall(pattern, text)
+print(matches)  # ['colour']
+
+# \d{3} - exactly 3 digits
+text = "Call 123 or 45678"
+pattern = r"\d{3}"
+matches = re.findall(pattern, text)
+print(matches)  # ['123', '456']
+
+# \d{2,4} - 2 to 4 digits
+pattern = r"\d{2,4}"
+matches = re.findall(pattern, text)
+print(matches)  # ['123', '4567']
+
+5️⃣ Anchors
+python^   # Start of string
+$   # End of string
+\b  # Word boundary
+
+# Examples:
+text = "Hello World"
+
+# ^ - starts with
+pattern = r"^Hello"
+print(re.search(pattern, text))  # Match!
+
+pattern = r"^World"
+print(re.search(pattern, text))  # None
+
+# $ - ends with
+pattern = r"World$"
+print(re.search(pattern, text))  # Match!
+
+# \b - word boundary
+text = "cat category scatter"
+pattern = r"\bcat\b"
+matches = re.findall(pattern, text)
+print(matches)  # ['cat'] - only whole word!
+
+6️⃣ Groups and Capturing
+python# () - Capture group
+text = "John: 25, Alice: 30"
+
+pattern = r"(\w+): (\d+)"
+matches = re.findall(pattern, text)
+print(matches)  
+# [('John', '25'), ('Alice', '30')]
+
+# Access groups
+match = re.search(pattern, text)
+print(match.group(0))  # "John: 25" - whole match
+print(match.group(1))  # "John" - first group
+print(match.group(2))  # "25" - second group
+
+# Named groups
+pattern = r"(?P<name>\w+): (?P<age>\d+)"
+match = re.search(pattern, text)
+print(match.group('name'))  # "John"
+print(match.group('age'))   # "25"
+
+7️⃣ Common re Functions
+re.match() - Match at start
+pythontext = "Hello World"
+
+# Matches because starts with Hello
+result = re.match(r"Hello", text)
+print(result.group())  # "Hello"
+
+# Doesn't match - not at start
+result = re.match(r"World", text)
+print(result)  # None
+re.search() - Search anywhere
+pythontext = "Hello World"
+
+# Finds anywhere
+result = re.search(r"World", text)
+print(result.group())  # "World"
+
+result = re.search(r"Python", text)
+print(result)  # None
+re.findall() - Find all matches
+pythontext = "I have 3 apples and 5 oranges"
+
+numbers = re.findall(r"\d+", text)
+print(numbers)  # ['3', '5']
+
+words = re.findall(r"[a-z]+", text)
+print(words)  # ['have', 'apples', 'and', 'oranges']
+re.sub() - Replace
+pythontext = "I have 3 apples and 5 oranges"
+
+# Replace all digits with 'X'
+result = re.sub(r"\d+", "X", text)
+print(result)  # "I have X apples and X oranges"
+
+# Replace with function
+def double(match):
+    return str(int(match.group()) * 2)
+
+result = re.sub(r"\d+", double, text)
+print(result)  # "I have 6 apples and 10 oranges"
+re.split() - Split by pattern
+pythontext = "apple,banana;cherry:orange"
+
+# Split by any of , ; :
+parts = re.split(r"[,;:]", text)
+print(parts)  
+# ['apple', 'banana', 'cherry', 'orange']
+
+8️⃣ Common Patterns
+Email Validation
+pythonpattern = r"[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
+
+email = "john.doe@example.com"
+if re.match(pattern, email):
+    print("Valid email!")
+Phone Number
+python# Format: 123-456-7890
+pattern = r"\d{3}-\d{3}-\d{4}"
+
+phone = "123-456-7890"
+if re.match(pattern, phone):
+    print("Valid phone!")
+URL
+pythonpattern = r"https?://[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
+
+url = "https://www.example.com"
+if re.match(pattern, url):
+    print("Valid URL!")
+Date (DD-MM-YYYY)
+pythonpattern = r"\d{2}-\d{2}-\d{4}"
+
+date = "25-12-2024"
+if re.match(pattern, date):
+    print("Valid date format!")
+
+9️⃣ Flags
+pythonre.IGNORECASE  # Case insensitive
+re.MULTILINE   # ^ and $ match each line
+re.DOTALL      # . matches newline too
+
+# Example:
+text = "Hello\nWorld"
+
+# Case insensitive
+pattern = r"hello"
+print(re.search(pattern, text, re.IGNORECASE))
+# Match!
+
+# Multiline
+text = "Line1\nLine2"
+pattern = r"^Line2"
+print(re.search(pattern, text, re.MULTILINE))
+# Match!
+
+🔟 Raw Strings (Important!)
+python# Always use r"..." for regex patterns!
+
+# Wrong ❌
+pattern = "\d+"  # \d treated as escape sequence
+
+# Correct ✅
+pattern = r"\d+"  # \d treated literally
+
+# Raw string preserves backslashes!
