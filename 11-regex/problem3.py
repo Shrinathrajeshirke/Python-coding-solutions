@@ -22,29 +22,31 @@ passwords = [
 import re
 
 def password_strength_checker(password):
-    checks = 0 
+
+    checks = 0
 
     if len(password)>=8:
-        checks+= 1
-
-    if re.search(r"[A-Z]", password):
         checks += 1
     
     if re.search(r"[a-z]", password):
         checks += 1
 
-    if re.search(r"\d", password):
-        checks += 1
-    
-    if re.search(r"[!@#$%*?&_]", password):
+    if re.search(r"[A-Z]", password):
         checks += 1
 
+    if re.search(r"[0-9]", password):
+        checks += 1
+
+    if re.search(r"[@$!%*?&]", password):
+        checks += 1
+    
     if checks == 5:
-        return "Strong"
+        print(f"'{password}' strength is strong")
     elif checks >= 3:
-        return "Medium"
+        print(f"'{password}' strength is medium")
     else:
-        return "Weak"
+        print(f"'{password}' strength is weak")
     
 for password in passwords:
-    print(password_strength_checker(password))
+    password_strength_checker(password)
+

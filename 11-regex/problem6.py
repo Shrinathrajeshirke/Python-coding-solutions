@@ -12,9 +12,9 @@ Email me at alice_test@site.org
 import re
 
 def mask_info(text):
-    masked_text = re.sub(r"[a-zA-z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}", "[EMAIL]" , text)
-    masked_text = re.sub(r"[0-9]{3}-[0-9]{3}-[0-9]{4}","[PHONE]", masked_text)
+    masked_text = re.sub(r"[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}", "[EMAIL]" , text)
     masked_text = re.sub(r"[0-9]{3}-[0-9]{2}-[0-9]{4}", "[SSN]", masked_text)
+    masked_text = re.sub(r"[0-9]{3}-[0-9]{3}-[0-9]{4}","[PHONE]", masked_text)
     masked_text = re.sub(r"[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}", "[CREDIT_CARD]", masked_text)
     print("Output:")
     print(masked_text)

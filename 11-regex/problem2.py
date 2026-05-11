@@ -14,13 +14,13 @@ Invalid: 12-345-6789 (too short)
 
 import re
 
-def phone_number_extractor(text):
+def extract_phone_numbers(text):
     pattern = r"\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}"
-    phone_numbers = re.findall(pattern, text)
-    return phone_numbers
+    matches = re.findall(pattern, text)
+    return matches
 
 print("Output:")
-phone_numbers_list = phone_number_extractor(text)
+phone_numbers_list = extract_phone_numbers(text)
 print(f"Found {len(phone_numbers_list)} phone numbers")
-for phone in phone_numbers_list:
-    print(phone)
+for i, phone in enumerate(phone_numbers_list,1):
+    print(f"{i}. {phone}")

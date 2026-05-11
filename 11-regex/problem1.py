@@ -17,12 +17,15 @@ emails = [
 import re
 
 def email_validator(email):
-    pattern = r"[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$"
+    pattern = r"[a-zA-Z0-9._]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$"
     if re.match(pattern, email):
-        print(f"{email} is Valid email.")
+        print(f"{email} is valid")
     else:
-        print(f"{email} is Invalid email.")
+        print(f"{email} is invalid")
 
 print("Output:")
 for email_id in emails:
     email_validator(email_id)
+
+
+
