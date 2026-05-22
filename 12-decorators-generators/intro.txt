@@ -1,0 +1,155 @@
+📚 Decorators & Generators - Complete Revision
+
+🎨 DECORATORS
+What is a Decorator?
+A decorator is a function that wraps another function to add extra behavior without modifying the original.
+python
+def my_decorator(func):
+    def wrapper():
+        # before
+        func()
+        # after
+    return wrapper
+The @ Syntax:
+python
+@my_decorator
+def greet():
+    print("Hello!")
+
+# Same as:
+greet = my_decorator(greet)
+
+Key Concepts:
+1. Basic Decorator
+pythondef shout(func):
+    def wrapper():
+        result = func()
+        return result.upper()
+    return wrapper
+
+@shout
+def greet():
+    return "hello"
+
+print(greet())  # HELLO
+2. Decorator with Arguments — use *args, **kwargs
+pythondef decorator(func):
+    def wrapper(*args, **kwargs):
+        print("Before")
+        result = func(*args, **kwargs)
+        print("After")
+        return result
+    return wrapper
+3. functools.wraps — preserves original function metadata
+pythonfrom functools import wraps
+
+def decorator(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        return func(*args, **kwargs)
+    return wrapper
+4. Decorator with Parameters
+python
+def repeat(n):
+    def decorator(func):
+        def wrapper(*args, **kwargs):
+            for _ in range(n):
+                func(*args, **kwargs)
+        return wrapper
+    return decorator
+
+@repeat(3)
+def greet():
+    print("Hello!")
+
+greet()  # prints Hello! 3 times
+5. Stacking Decorators
+python@decorator1
+@decorator2
+def my_func():
+    pass
+
+# Applied bottom-up: decorator1(decorator2(my_func))
+
+⚡ GENERATORS
+What is a Generator?
+A generator is a function that yields values one at a time instead of returning all at once. It pauses and resumes execution.
+pythondef my_generator():
+    yield 1
+    yield 2
+    yield 3
+
+gen = my_generator()
+print(next(gen))  # 1
+print(next(gen))  # 2
+print(next(gen))  # 3
+
+Key Concepts:
+1. yield vs return
+python# return — gives everything at once, function ends
+def get_list():
+    return [1, 2, 3]
+
+# yield — gives one at a time, function pauses
+def get_gen():
+    yield 1
+    yield 2
+    yield 3
+2. Generator is Lazy — values computed only when needed
+pythondef infinite_counter(n):
+    while True:
+        yield n
+        n += 1
+
+gen = infinite_counter(1)
+print(next(gen))  # 1
+print(next(gen))  # 2
+# Never runs out!
+3. Looping over Generator
+python
+def squares(n):
+    for i in range(n):
+        yield i ** 2
+
+for sq in squares(5):
+    print(sq)  # 0, 1, 4, 9, 16
+4. Generator Expression — like list comprehension but lazy
+python# List comprehension — all in memory
+squares = [x**2 for x in range(10)]
+
+# Generator expression — lazy
+squares = (x**2 for x in range(10))
+5. send() — passing values into generator
+pythondef accumulator():
+    total = 0
+    while True:
+        value = yield total
+        total += value
+
+gen = accumulator()
+next(gen)        # prime the generator
+gen.send(10)     # total = 10
+gen.send(20)     # total = 30
+6. yield from — delegate to another generator
+pythondef chain(*iterables):
+    for it in iterables:
+        yield from it
+
+list(chain([1,2], [3,4]))  # [1, 2, 3, 4]
+
+🔑 Key Differences:
+DecoratorsGeneratorsPurposeWrap functionsProduce sequencesKeyword@yieldReturnsModified functionGenerator objectUse caseLogging, timing, authLarge data, infinite sequences
+
+🎯 Common Patterns to Remember:
+Decorator checklist:
+
+Always use *args, **kwargs in wrapper
+Always return result from wrapper
+Use @functools.wraps for metadata
+
+Generator checklist:
+
+yield pauses, next() resumes
+Generators are exhausted after one pass
+Memory efficient for large datasets
+
