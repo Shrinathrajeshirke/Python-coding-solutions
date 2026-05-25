@@ -1,0 +1,5 @@
+Python is an amazing programming language.
+It is widely used in web development and data science.
+Many developers love Python for its simplicity.
+Generators and decorators are powerful features.
+Learning Python opens many opportunities.
