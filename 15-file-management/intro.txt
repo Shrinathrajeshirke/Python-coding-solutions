@@ -1,0 +1,100 @@
+📚 Day 15 - File & Directory Management
+
+🗂️ Two Main Modules:
+1. os module — Interact with operating system
+2. pathlib module — Modern, object-oriented file paths
+
+📁 os Module:
+Directory Operations:
+pythonimport os
+
+os.getcwd()              # current working directory
+os.chdir("/path")        # change directory
+os.mkdir("folder")       # create single folder
+os.makedirs("a/b/c")     # create nested folders
+os.rmdir("folder")       # remove empty folder
+os.removedirs("a/b/c")   # remove nested folders
+os.listdir(".")          # list files in directory
+os.rename("old", "new")  # rename file/folder
+os.remove("file.txt")    # delete file
+Path Operations:
+pythonos.path.exists("file.txt")      # check if exists
+os.path.isfile("file.txt")      # check if file
+os.path.isdir("folder")         # check if directory
+os.path.join("folder", "file")  # join paths safely
+os.path.basename("/a/b/c.txt")  # → "c.txt"
+os.path.dirname("/a/b/c.txt")   # → "/a/b"
+os.path.splitext("file.txt")    # → ("file", ".txt")
+os.path.getsize("file.txt")     # file size in bytes
+Walking Directory Tree:
+pythonfor root, dirs, files in os.walk("."):
+    print(f"Directory: {root}")
+    print(f"Subdirs: {dirs}")
+    print(f"Files: {files}")
+
+📂 pathlib Module (Modern Approach):
+pythonfrom pathlib import Path
+
+p = Path("folder/file.txt")
+
+p.exists()          # check if exists
+p.is_file()         # check if file
+p.is_dir()          # check if directory
+p.mkdir()           # create directory
+p.mkdir(parents=True, exist_ok=True)  # create nested
+p.rename("new.txt") # rename
+p.unlink()          # delete file
+p.rmdir()           # delete directory
+p.stat().st_size    # to get filesize
+
+# Path properties
+p.name              # "file.txt"
+p.stem              # "file"
+p.suffix            # ".txt"
+p.parent            # "folder"
+
+# Reading/Writing
+p.read_text()       # read file content
+p.write_text("hello")  # write to file
+
+# Listing files
+Path(".").iterdir()           # list directory
+Path(".").glob("*.txt")       # find .txt files
+Path(".").rglob("*.txt")      # recursive search
+
+🔑 Key Differences:
+TaskospathlibJoin pathsos.path.join()Path() / "folder"Check existsos.path.exists()p.exists()List filesos.listdir()p.iterdir()File extensionos.path.splitext()p.suffix
+pathlib is preferred in modern Python — cleaner and more readable!
+
+📝 File Operations Recap:
+python# Reading
+with open("file.txt", "r") as f:
+    content = f.read()        # entire file
+    lines = f.readlines()     # list of lines
+    line = f.readline()       # one line
+
+# Writing
+with open("file.txt", "w") as f:  # overwrite
+    f.write("hello")
+
+# Appending
+with open("file.txt", "a") as f:  # append
+    f.write("world")
+
+# File modes
+"r"  # read
+"w"  # write (overwrite)
+"a"  # append
+"rb" # read binary
+"wb" # write binary
+
+🔥 Common Patterns:
+Safe file operations:
+pythonimport os
+
+# Always check before deleting
+if os.path.exists("file.txt"):
+    os.remove("file.txt")
+
+# Always use os.path.join for paths
+path = os.path.join("folder", "subfolder", "file.txt")
