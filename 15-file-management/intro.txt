@@ -63,7 +63,9 @@ Path(".").glob("*.txt")       # find .txt files
 Path(".").rglob("*.txt")      # recursive search
 
 🔑 Key Differences:
-TaskospathlibJoin pathsos.path.join()Path() / "folder"Check existsos.path.exists()p.exists()List filesos.listdir()p.iterdir()File extensionos.path.splitext()p.suffix
+Task
+ospathlibJoin paths
+os.path.join()Path() / "folder"Check existsos.path.exists()p.exists()List filesos.listdir()p.iterdir()File extensionos.path.splitext()p.suffix
 pathlib is preferred in modern Python — cleaner and more readable!
 
 📝 File Operations Recap:
