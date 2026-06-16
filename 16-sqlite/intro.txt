@@ -1,0 +1,70 @@
+Day 16: SQLite Databases — Quick Theory Review 📚
+
+What is SQLite?
+
+Lightweight, serverless database built into Python
+No installation needed — just import sqlite3
+Data stored in a single .db file
+
+
+Core Concepts
+Connection & Cursor
+python
+import sqlite3
+conn = sqlite3.connect("mydb.db")  # creates file if not exists
+cursor = conn.cursor()
+
+conn — connection to the database
+cursor — executes SQL commands
+
+
+Basic Operations (CRUD)
+python# Create table
+cursor.execute("""CREATE TABLE IF NOT EXISTS users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT,
+    age INTEGER
+)""")
+
+# Insert
+cursor.execute("INSERT INTO users (name, age) VALUES (?, ?)", ("Ali", 25))
+
+# Read
+cursor.execute("SELECT * FROM users")
+rows = cursor.fetchall()   # all rows
+row = cursor.fetchone()    # single row
+
+# Update
+cursor.execute("UPDATE users SET age = ? WHERE name = ?", (26, "Ali"))
+
+# Delete
+cursor.execute("DELETE FROM users WHERE name = ?", ("Ali",))
+
+conn.commit()   # save changes
+conn.close()    # close connection
+
+Key Methods
+MethodPurposefetchall()Returns all rows as list of tuplesfetchone()Returns single rowfetchmany(n)Returns n rowsexecutemany()Insert multiple rows at oncelastrowidID of last inserted row
+
+Context Manager (Best Practice)
+pythonwith sqlite3.connect("mydb.db") as conn:
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM users")
+    # auto commits, no need to close
+
+Row Factory (Access by column name)
+pythonconn.row_factory = sqlite3.Row
+cursor.execute("SELECT * FROM users")
+row = cursor.fetchone()
+print(row["name"])  # instead of row[0]
+
+Useful Extras
+python# Check if table exists
+cursor.execute("SELECT name FROM sqlite_master WHERE type='table'")
+
+# Get column names
+cursor.description  # after a SELECT query
+
+# Parameterized queries — always use ? to prevent SQL injection
+cursor.execute("SELECT * FROM users WHERE name = ?", (name,))
+
